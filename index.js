@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./router/router.js";
+import router from "./routes/router.js";
 
 const app = express();
 
@@ -13,4 +13,4 @@ app.use(express.urlencoded({extended:true}));
 //routes
 app.use("/", router); 
 
-app.listen(PORT, () => console.log(`Server running on port http://localhost:PORT`));
+app.listen(PORT, () => console.log(`Server running on port http://localhost:3000`));

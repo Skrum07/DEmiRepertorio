@@ -1,4 +1,4 @@
-create database if not exist repertories;
+create database if not exist repertorio;
 
 create table canciones (
     id serial,
