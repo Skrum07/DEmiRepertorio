@@ -30,8 +30,26 @@ const getSongsQuery = async () => {
         }
         return result.rows;
     } catch (error) {
-        console.log("code:" + error.code + "\Message: " + error);
+        console.log("code:" + error.code + "\nMessage: " + error);
     }
 };
 
-export { agregarCancionQueries, getSongsQuery }
+const editSongQuery = async (titulo, artista, tono , id) => {
+    try {
+        const query = {
+            text: "UPDATE canciones SET titulo = $1, artista = $2, tono = $3, WHERE id = $4 RETURNING *",
+            values: [titulo, artista, tono, id],
+        };
+        const result = await pool.query(query);
+        if (result.rowCount > 0) {
+            return result.rows;
+        } else {
+            return throwError("Cancion no fue editada")
+        }
+
+    } catch (error) {
+        console.log("code:" + error.code + "\nMessage: " + error);
+    }
+};
+
+export { agregarCancionQueries, getSongsQuery, editSongQuery }
