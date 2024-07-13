@@ -1,7 +1,7 @@
-import { text } from "express";
+import espress from "express";
 import { pool } from "../config/db.js";
 
-const agregarCancionQueries = async (datos) => {
+const createSongQuery = async (datos) => {
     try {
         const sql = {
             text: "INSERT INTO canciones  (titulo, artista, tono) VALUES ($1, $2, $3) returning *",
@@ -34,22 +34,30 @@ const getSongsQuery = async () => {
     }
 };
 
-const editSongQuery = async (titulo, artista, tono , id) => {
+const editSongQuery = async (titulo, artista, tono, id) => {
     try {
-        const query = {
-            text: "UPDATE canciones SET titulo = $1, artista = $2, tono = $3, WHERE id = $4 RETURNING *",
+        const sql = {
+            text: "UPDATE canciones SET titulo = $1, artista = $2, tono, = $3, WHERE id = $4 RETURNING *",
             values: [titulo, artista, tono, id],
         };
-        const result = await pool.query(query);
-        if (result.rowCount > 0) {
-            return result.rows;
-        } else {
-            return throwError("Cancion no fue editada")
-        }
-
+        const result = await pool.query(sql);
+        return result;
     } catch (error) {
-        console.log("code:" + error.code + "\nMessage: " + error);
+        console.log("code: " + error.code + "\nMessage: " + error);
     }
 };
 
-export { agregarCancionQueries, getSongsQuery, editSongQuery }
+const deleteSongsQuery = async (id) => {
+    try {
+        const sql = {
+            text: "DELETE FROM canciones WHERE id = $1 RETURNING *",
+            values: [id],
+        };
+        const result = await pool.query(sql);
+        return result;
+    } catch (error) {
+        console.log("code:" + error.code + "\nMessage: " + error);
+    }
+}
+
+export { createSongQuery, getSongsQuery, editSongQuery, deleteSongsQuery };

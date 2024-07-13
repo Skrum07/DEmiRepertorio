@@ -1,5 +1,5 @@
 import path from "path";
-import { agregarCancionQueries, getSongsQuery, editSongQuery } from "../models/queries.js";
+import { agregarCancionQueries, getSongsQuery, editSongQuery, deleteSongsQueries } from "../models/queries.js";
 const __dirname = path.resolve();
 
 export const home = (req, res) => {
@@ -25,3 +25,4 @@ export const editSong = async (req, res) => {
     const cancion = await editSongQuery(titulo, artista, tono, id);
     res.send(cancion);
 };
+
